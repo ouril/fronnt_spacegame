@@ -4,11 +4,11 @@
   <form>
     <img class="logo" src="assets/img/logo.jpg" alt="">
     <div class="uk-margin form-column">
-      <input class="uk-input uk-form-width-medium" type="text" placeholder="username">
+      <input name="login" [(ngModel)]="loginData" class="uk-input uk-form-width-medium" type="text" placeholder="username">
 
-      <input class="uk-input uk-form-width-medium" type="password" placeholder="password">
+      <input name="pass" [(ngModel)]="pass" class="uk-input uk-form-width-medium" type="password" placeholder="password">
     </div>
-    <button class="uk-button uk-button-secondary">Enter</button>
+    <button class="uk-button uk-button-secondary" (click)="login()">Enter</button>
 
   </form>
 </div>
