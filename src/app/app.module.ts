@@ -6,12 +6,14 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { UnitComponentComponent } from './unit-component/unit-component.component';
 import { GamesComponentComponent } from './games-component/games-component.component';
+import { EnterComponent } from './enter/enter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UnitComponentComponent,
-    GamesComponentComponent
+    GamesComponentComponent,
+    EnterComponent
   ],
   imports: [
     BrowserModule,
