@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "swgameFront"
+    }
+  },
+  "defaultProject": "swgameFront",
+  "cli": {
+    "analytics": "5020c564-ebbf-4054-888e-dc07f568e6e6"
+  }
 }
