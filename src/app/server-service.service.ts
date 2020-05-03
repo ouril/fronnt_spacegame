@@ -1,19 +1,14 @@
 import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {CookieService} from 'ngx-cookie-service';
 
-interface Auth {
-  username: string;
-  password: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServerServiceService{
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
   }
 
   getData() {
@@ -26,5 +21,14 @@ export class ServerServiceService{
       password
     });
 
+  }
+  refresh(): void {
+    const token = this.cookieService.get('auth-token');
+    this.http.post('http://127.0.0.1:8000/api-token-refresh', {token}).subscribe(
+      (data: any) => {
+        this.cookieService.set('auth-token', data.token);
+      },
+      error => {}
+    );
   }
 }
