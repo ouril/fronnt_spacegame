@@ -20,17 +20,18 @@ export class ServerServiceService{
   }
 
   auth(username: string, password: string) {
-    return this.http.post('http://127.0.0.1:8000/api-token-auth/', {
+    return this.http.post('http://127.0.0.1:8000/api/token/', {
       username,
       password
     });
 
   }
-  refresh(): void {
-    const token = this.cookieService.get('auth-token');
-    this.http.post('http://127.0.0.1:8000/api-token-refresh', {token}).subscribe(
+  refresh(callback): void{
+    const token = this.cookieService.get('refresh-token');
+    this.http.post('http://127.0.0.1:8000/api/refresh/', {token}).subscribe(
       (data: any) => {
         this.cookieService.set('auth-token', data.token);
+        callback.apply();
       },
       error => {}
     );
@@ -39,10 +40,6 @@ export class ServerServiceService{
   stopTurn() {
     const token = this.cookieService.get('auth-token');
     console.log(token);
-    const headersData: HttpHeaders = new HttpHeaders();
-    headersData.append('Accept', 'application/json');
-    headersData.append('Authorization', `Bearer ${token}`);
-    // console.log('---------------------' + headers);
 
     return this.http.post('http://127.0.0.1:8000/api/rpc/', {
       method: 'turn',
@@ -53,7 +50,7 @@ export class ServerServiceService{
       id: 1
     }, {
       headers: {
-        authorization : `JWT ${token}`,
+        authorization : `Bearer ${token}`,
         accept: 'application/json'
       }
     });

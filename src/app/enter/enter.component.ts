@@ -17,21 +17,20 @@ export class EnterComponent implements OnInit {
   }
 
 
-
   ngOnInit(): void {
     const token = this.cookieService.get('auth-token');
-    if (token != null && token !== ''){
+    if (token != null && token !== '') {
       this.router.navigate(['/main']);
     }
   }
 
-  login(){
+  login() {
 
     this.serverServiceService.auth(this.loginData, this.pass).subscribe(
       (data: any) => {
-        this.cookieService.set('auth-token', data.token);
+        this.cookieService.set('auth-token', data.access);
+        this.cookieService.set('refresh-token', data.refresh);
         this.router.navigate(['/main']);
-
       },
       error => {
         console.log(error);
