@@ -1,5 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 
 
@@ -12,7 +12,11 @@ export class ServerServiceService{
   }
 
   getData() {
-    return this.http.get('http://127.0.0.1:8000/games/');
+    const token = this.cookieService.get('auth-token');
+    const headers: HttpHeaders = new HttpHeaders();
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', `Bearer ${token}`);
+    return this.http.get('http://127.0.0.1:8000/api/games/', {headers});
   }
 
   auth(username: string, password: string) {
@@ -30,5 +34,28 @@ export class ServerServiceService{
       },
       error => {}
     );
+  }
+
+  stopTurn() {
+    const token = this.cookieService.get('auth-token');
+    console.log(token);
+    const headersData: HttpHeaders = new HttpHeaders();
+    headersData.append('Accept', 'application/json');
+    headersData.append('Authorization', `Bearer ${token}`);
+    // console.log('---------------------' + headers);
+
+    return this.http.post('http://127.0.0.1:8000/api/rpc/', {
+      method: 'turn',
+      params: {
+        game_name: 'some',
+        turn_act: 2
+      },
+      id: 1
+    }, {
+      headers: {
+        authorization : `JWT ${token}`,
+        accept: 'application/json'
+      }
+    });
   }
 }

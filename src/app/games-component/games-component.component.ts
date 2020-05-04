@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ServerServiceService} from '../server-service.service';
 import { Game } from './model';
+import {ifError} from 'assert';
 
 @Component({
   selector: 'app-games-component',
@@ -15,7 +16,22 @@ export class GamesComponentComponent implements OnInit {
   constructor(private serverServiceService: ServerServiceService) { }
 
   ngOnInit(): void {
-    this.showGames();
+    // this.showGames();
+  }
+
+  turn(){
+    console.log('turn');
+    this.serverServiceService.stopTurn().subscribe(
+      (data: any) => {
+      console.log(data);
+      // this.game = data;
+    },
+      error => {
+        console.log(error);
+        // if (error.)
+          }
+    );
+    // this.serverServiceService.getData();
   }
 
 
